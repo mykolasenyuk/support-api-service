@@ -19,15 +19,12 @@
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
     "paths": {},
-    "types": ["node"]
+    "types": ["node", "multer"]
   },
   "watchOptions": {
     "watchFile": "dynamicPriorityPolling",
     "watchDirectory": "dynamicPriorityPolling",
-    "excludeDirectories": [
-      "**/node_modules",
-      "dist"
-    ]
+    "excludeDirectories": ["**/node_modules", "dist"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

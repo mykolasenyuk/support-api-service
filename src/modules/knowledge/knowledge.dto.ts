@@ -9,8 +9,8 @@ export class CreateKnowledgeDto {
   @ApiPropertyOptional()
   description: string;
 
-  @ApiPropertyOptional()
-  icon: string;
+  // @ApiPropertyOptional()
+  // icon: string;
 }
 
 export class KnowledgeResponseDto extends CreateKnowledgeDto {

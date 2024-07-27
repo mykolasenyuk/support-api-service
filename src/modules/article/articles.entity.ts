@@ -13,15 +13,15 @@ export class Article {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column("varchar", { length: 255 })
   @ApiProperty()
   title: string;
 
-  @Column()
+  @Column("varchar", { length: 255 })
   @ApiProperty()
   subtitle: string;
 
-  @Column()
+  @Column("text")
   @ApiProperty()
   description: string;
 
@@ -37,7 +37,9 @@ export class Article {
     this.images = JSON.stringify(links);
   }
 
-  @ManyToOne(() => Knowledge, (knowledge) => knowledge.articles)
+  @ManyToOne(() => Knowledge, (knowledge) => knowledge.articles, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "knowledge_id" })
   public knowledge: Knowledge;
 }

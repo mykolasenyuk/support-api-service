@@ -8,10 +8,16 @@ import {
   Put,
 } from "@nestjs/common";
 import { ArticleService } from "./articles.service";
-import { ArticleResponseDto, CreateArticleDto } from "./articles.dto";
+import { CreateArticleDto } from "./articles.dto";
 import { Article } from "./articles.entity";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  BaseResponse,
+  withArrayBaseResponse,
+  withSingleBaseResponse,
+} from "src/helper/base-response.dto";
 
+@ApiTags("Articles")
 @Controller("articles")
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -22,7 +28,7 @@ export class ArticleController {
   })
   @ApiResponse({
     status: 200,
-    type: [ArticleResponseDto],
+    type: withArrayBaseResponse<Article>(Article),
   })
   getAllArticles() {
     return this.articleService.findAll();
@@ -34,7 +40,7 @@ export class ArticleController {
   })
   @ApiResponse({
     status: 201,
-    type: ArticleResponseDto,
+    type: withSingleBaseResponse<Article>(Article),
   })
   async createArticle(@Body() createArticleDto: CreateArticleDto) {
     const { knowledgeId, ...articleData } = createArticleDto;
@@ -51,7 +57,7 @@ export class ArticleController {
   })
   @ApiResponse({
     status: 200,
-    type: ArticleResponseDto,
+    type: withSingleBaseResponse<Article>(Article),
   })
   async updateArticle(
     @Param("id") id: string,
@@ -78,9 +84,9 @@ export class ArticleController {
   })
   @ApiResponse({
     status: 200,
-    type: ArticleResponseDto,
+    type: withSingleBaseResponse<Article>(Article),
   })
-  async findById(@Param("id") id: string): Promise<Article> {
+  async findById(@Param("id") id: string): Promise<BaseResponse<Article>> {
     return this.articleService.findOne(Number(id));
   }
 
@@ -90,11 +96,11 @@ export class ArticleController {
   })
   @ApiResponse({
     status: 200,
-    type: ArticleResponseDto,
+    type: withArrayBaseResponse<Article>(Article),
   })
   async findByKnowledge(
     @Param("knowledgeId") knowledgeId: string,
-  ): Promise<Article[]> {
+  ): Promise<BaseResponse<Article[]>> {
     return this.articleService.findByKnowledge(Number(knowledgeId));
   }
 }
